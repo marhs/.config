@@ -53,6 +53,8 @@ call plug#begin('~/.vim/plugged')
     Plug 'NLKNguyen/papercolor-theme'
     " Plug 'chriskempson/base16-vim'
 
+    Plug 'lervag/vimtex'
+
 call plug#end()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -71,6 +73,7 @@ set linespace=-2
 
 " Airline
 let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Basics
@@ -87,7 +90,6 @@ set autoindent
 set laststatus=2              " Windows always have status bars
 set encoding=utf-8
 set number
-set relativenumber
 set scrolloff=5
 set showcmd                   " Show commands in last line
 set wildmenu
