@@ -41,6 +41,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'ctrlpvim/ctrlp.vim'
     " Lint & checker
     Plug 'neomake/neomake'
+    let g:neomake_python_enabled_makers = ['flake8']
     " Training
     Plug 'takac/vim-hardtime'
     "Tags
@@ -54,6 +55,7 @@ call plug#begin('~/.vim/plugged')
     " Plug 'chriskempson/base16-vim'
 
     Plug 'lervag/vimtex'
+    Plug 'tpope/vim-surround'
 
 call plug#end()
 
@@ -118,7 +120,7 @@ set nowritebackup
 set autoread
 
 "set wrap
-set colorcolumn=120
+set colorcolumn=80
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Python specific
@@ -203,7 +205,7 @@ map <Leader>k <Plug>(easymotion-k)
 let g:ctrlp_map = '<C-p>'
 let g:ctrlp_match_window_bottom = 1
 let g:ctrlp_match_window_reversed = 1
-let g:ctrlp_custom_ignore = '\v\$|\.(o|swp|pyc|wav|mp3|ogg|blend)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|__init__\.py'
+let g:ctrlp_custom_ignore = '\v\$|\.(o|swp|pyc|wav|mp3|ogg|blend)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])'
 let g:ctrlp_working_path_mode = 'r'
 let g:ctrlp_dotfiles = 0
 let g:ctrlp_switch_buffer = 0
