@@ -120,7 +120,7 @@ set nowritebackup
 set autoread
 
 "set wrap
-set colorcolumn=80
+set colorcolumn=72,80,100
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Python specific
