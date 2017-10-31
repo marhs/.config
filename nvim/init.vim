@@ -137,6 +137,9 @@ set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 
+" Wrap docstring to enforce pep8
+set textwidth=72
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " PERSONAL KEYMAPS (Be careful in your workflow with these)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
