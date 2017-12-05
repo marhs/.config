@@ -71,7 +71,7 @@ if has("gui_vimr")
 "   color xyz
 endif
 
-set linespace=-2
+set linespace=10
 
 " Airline
 let g:airline_powerline_fonts = 1
@@ -136,9 +136,6 @@ set foldlevel=99
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
-
-" Wrap docstring to enforce pep8
-set textwidth=72
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " PERSONAL KEYMAPS (Be careful in your workflow with these)
