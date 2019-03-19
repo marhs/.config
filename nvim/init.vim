@@ -2,7 +2,7 @@
 " Init.vim: Marco Herrero <me@marhs.de>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "
-" THIS IS A CACTUS
+" TAKE A DEEP BREATH AND ENJOY THIS CACTUS
 "
 "        |_|_|
 "      \_|||;;_/
