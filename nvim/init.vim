@@ -32,6 +32,8 @@ call plug#begin('~/.vim/plugged')
 
     " Git
     Plug 'tpope/vim-fugitive'
+    Plug 'tommcdo/vim-fubitive'
+
     " Completion
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     Plug 'zchee/deoplete-jedi'
@@ -56,6 +58,10 @@ call plug#begin('~/.vim/plugged')
 
     Plug 'lervag/vimtex'
     Plug 'tpope/vim-surround'
+    Plug 'editorconfig/editorconfig-vim'
+
+    "Ack / Ag for search in the project
+    Plug 'mileszs/ack.vim'
 
 call plug#end()
 
@@ -247,6 +253,22 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Ag
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Macros
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Ipdb
+let @p = 'Oimport ipdb; ipdb.set_trace()'
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " TODO Autoload vimrc
