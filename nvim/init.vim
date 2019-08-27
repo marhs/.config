@@ -1,8 +1,9 @@
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Init.vim: Marco Herrero <me@marhs.de>
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" init.vim / .vimrc: Marco Herrero <me@marhs.de>
+"  (neovim / vim 8)
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "
-" TAKE A DEEP BREATH AND ENJOY THIS CACTUS
+" First, take a deep breath and enjoy this cactus
 "
 "        |_|_|
 "      \_|||;;_/
@@ -25,49 +26,57 @@
 "    |           |
 "     |_________|
 "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.vim/plugged')
 
     " Git
     Plug 'tpope/vim-fugitive'
-    Plug 'tommcdo/vim-fubitive'
 
     " Completion
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    Plug 'zchee/deoplete-jedi'
-    " Motions
+    "Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    "Plug 'zchee/deoplete-jedi'
+    "
+    "let g:deoplete#enable_at_startup = 1
+    Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
+
+    " Power ranger motions
     Plug 'easymotion/vim-easymotion'
-    " File finder
-    Plug 'ctrlpvim/ctrlp.vim'
+
+    " Code navigation (fzf)
+    Plug '/usr/local/opt/fzf'
+    Plug 'junegunn/fzf.vim'
+
     " Lint & checker
     Plug 'neomake/neomake'
     let g:neomake_python_enabled_makers = ['flake8']
-    " Training
-    Plug 'takac/vim-hardtime'
-    "Tags
-    Plug 'majutsushi/tagbar'
 
     " Aesthetics
     Plug 'vim-airline/vim-airline'
+    Plug 'machakann/vim-highlightedyank'
+
     " Colorschemes
     Plug 'frankier/neovim-colors-solarized-truecolor-only/'
     Plug 'NLKNguyen/papercolor-theme'
-    " Plug 'chriskempson/base16-vim'
+    Plug 'yous/vim-open-color'
+    Plug 'chriskempson/base16-vim'
 
+    " Activate only for projects
+    Plug 'davidhalter/jedi-vim'
     Plug 'lervag/vimtex'
     Plug 'tpope/vim-surround'
     Plug 'editorconfig/editorconfig-vim'
 
-    "Ack / Ag for search in the project
-    Plug 'mileszs/ack.vim'
+
+    Plug 'ntpeters/vim-better-whitespace'
+    Plug 'junegunn/vim-peekaboo'
 
 call plug#end()
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Aesthetics
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set background=dark
 set termguicolors
 colorscheme PaperColor
@@ -85,9 +94,9 @@ let g:airline_powerline_fonts = 0
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Basics
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 syntax on
 
 set hidden
@@ -115,9 +124,11 @@ set ignorecase
 set smartcase
 
 " Search
-set incsearch
-set showmatch
-set hlsearch
+"set incsearch
+"set showmatch
+"set hlsearch
+set gdefault 
+set inccommand=nosplit 
 
 " Files and backup
 set nobackup
@@ -128,12 +139,15 @@ set nowritebackup
 set autoread
 
 "set wrap
-set colorcolumn=72,80,100
+set colorcolumn=72,80,120
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set splitbelow
+set splitright
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Python specific
 " TODO Move these to another file
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Folds
 set foldmethod=indent
@@ -145,9 +159,9 @@ set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " PERSONAL KEYMAPS (Be careful in your workflow with these)
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Leader remap to space
 let mapleader = "\<Space>"
 
@@ -160,10 +174,10 @@ vnoremap * y/<C-R>"<CR>
 " Save a file:
 nnoremap <Leader>w :w<CR>
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MULTIPURPOSE TAB KEY
 " INDENT if I'm writing a word, else do COMPLETION
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 function! InsertTabWrapper()
     let col = col('.') - 1
@@ -176,10 +190,10 @@ endfunction
 inoremap <expr> <tab> InsertTabWrapper()
 inoremap <s-tab> <c-n>
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Fugitive
 " <leader> g*
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nmap <Leader>gd :Gvdiff<CR>
 nmap <Leader>gc :Gcommit<CR>
 nmap <Leader>gw :Gwrite<CR>
@@ -187,15 +201,11 @@ nmap <Leader>gr :Gread<CR>
 nmap <Leader>gs :Gstatus<CR>
 nmap <Leader>gb :Gblame<CR>
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Easymotion
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:EasyMotion_do_mapping = 0 " Disable default mappings
 
-" Jump to anywhere you want with minimal keystrokes, with just one key binding.
-" `s{char}{label}`
-nmap s <Plug>(easymotion-overwin-f)
-" or
 " `s{char}{char}{label}`
 " Need one more keystroke, but on average, it may be more comfortable.
 nmap s <Plug>(easymotion-overwin-f2)
@@ -207,43 +217,56 @@ let g:EasyMotion_smartcase = 1
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" CtrlP
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:ctrlp_map = '<C-p>'
-let g:ctrlp_match_window_bottom = 1
-let g:ctrlp_match_window_reversed = 1
-let g:ctrlp_custom_ignore = '\v\$|\.(o|swp|pyc|wav|mp3|ogg|blend)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])'
-let g:ctrlp_working_path_mode = 'r'
-let g:ctrlp_dotfiles = 0
-let g:ctrlp_switch_buffer = 0
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Fzf
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nmap <C-p> :FZF<CR>
+nmap <Leader>t :Tags<CR>
+nmap <Leader>b :Buffers<CR>
 
-nnoremap <Leader>p :CtrlPBufTag<CR>
-nmap <Leader>bb :CtrlPBuffer<cr>
-nmap <Leader>bm :CtrlPMixed<cr>
-nmap <Leader>bs :CtrlPMRU<cr>
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Default fzf layout
+" - down / up / left / right
+let g:fzf_layout = { 'up': '~30%' }
+
+let g:fzf_buffers_jump = 1
+let g:fzf_tags_command = 'ctags'
+
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header': ['fg', 'Comment'] }
+
+let $FZF_DEFAULT_COMMAND = 'ag -g ""'
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Deoplete
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:deoplete#enable_at_startup = 1
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Tagbar
-" <leader> tb
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:tagbar_autofocus = 1
-let g:tagbar_compact = 1
-nnoremap <Leader>t :TagbarToggle<CR>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Neomake
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 autocmd BufWritePost * Neomake
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Windows movement (Alt-hjkl) for normal and terminal
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+autocmd BufWinEnter,WinEnter term://* startinsert
 
 tnoremap <C-h> <C-\><C-n><C-w>h
 tnoremap <C-j> <C-\><C-n><C-w>j
@@ -254,22 +277,14 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Ag
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-if executable('ag')
-  let g:ackprg = 'ag --vimgrep'
-endif
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Macros
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Ipdb
 let @p = 'Oimport ipdb; ipdb.set_trace()'
 
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" TODO Autoload vimrc
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" FIXME 
+"   -> Autoload this file on write
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
