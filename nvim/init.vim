@@ -49,8 +49,10 @@ call plug#begin('~/.vim/plugged')
     Plug 'junegunn/fzf.vim'
 
     " Lint & checker
-    Plug 'neomake/neomake'
-    let g:neomake_python_enabled_makers = ['flake8']
+    "Plug 'neomake/neomake'
+    Plug 'dense-analysis/ale'
+    "let g:neomake_python_enabled_makers = ['flake8']
+    let b:ale_linters = ['flake8']
 
     " Aesthetics
     Plug 'vim-airline/vim-airline'
@@ -63,6 +65,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'chriskempson/base16-vim'
 
     " Activate only for projects
+    Plug 'jmcantrell/vim-virtualenv'
     Plug 'davidhalter/jedi-vim'
     Plug 'lervag/vimtex'
     Plug 'tpope/vim-surround'
@@ -74,6 +77,10 @@ call plug#begin('~/.vim/plugged')
 
 call plug#end()
 
+let g:python3_host_prog = '/Users/marhs/.pyenv/versions/neovim3/bin/python'
+let g:ale_python_flake8_executable = 'python'
+let g:ale_python_flake8_options = '-m flake8'
+"
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Aesthetics
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -93,6 +100,8 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 0
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
+"Ale
+let g:airline#extensions#ale#enabled = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Basics
@@ -261,7 +270,6 @@ let g:deoplete#enable_at_startup = 1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Neomake
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-autocmd BufWritePost * Neomake
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Windows movement (Alt-hjkl) for normal and terminal
