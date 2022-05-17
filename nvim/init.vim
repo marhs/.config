@@ -3,7 +3,8 @@
 "  (neovim / vim 8)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "
-" First, take a deep breath and enjoy this cactus
+" This is going to be long, so first take a deep breath and 
+" enjoy this cactus
 "
 "        |_|_|
 "      \_|||;;_/
@@ -21,10 +22,7 @@
 " |_________________|
 "  |               |
 "   |             |
-"   |             |
-"    |           |
-"    |           |
-"     |_________|
+"    |___________|
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins
@@ -34,52 +32,49 @@ call plug#begin('~/.vim/plugged')
     " Git
     Plug 'tpope/vim-fugitive'
 
-    " Completion
-    "Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    "Plug 'zchee/deoplete-jedi'
-    "
-    "let g:deoplete#enable_at_startup = 1
-    Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
+    " Plug 'mfussenegger/nvim-lint'
+    Plug 'mfussenegger/nvim-lint'
 
-    " Power ranger motions
-    Plug 'easymotion/vim-easymotion'
+    " lsp
+    Plug 'neovim/nvim-lspconfig'
+    Plug 'hrsh7th/cmp-nvim-lsp'
 
-    " Code navigation (fzf)
-    Plug '/usr/local/opt/fzf'
-    Plug 'junegunn/fzf.vim'
+    " completion
+    Plug 'hrsh7th/nvim-cmp'
+    Plug 'hrsh7th/cmp-buffer'
+    Plug 'hrsh7th/cmp-path'
+    Plug 'hrsh7th/cmp-cmdline'
 
-    " Lint & checker
-    "Plug 'neomake/neomake'
-    Plug 'dense-analysis/ale'
-    "let g:neomake_python_enabled_makers = ['flake8']
-    let b:ale_linters = ['flake8']
+    " snippets
+    Plug 'L3MON4D3/LuaSnip'
+    Plug 'saadparwaiz1/cmp_luasnip'
 
     " Aesthetics
-    Plug 'vim-airline/vim-airline'
-    Plug 'machakann/vim-highlightedyank'
-
-    " Colorschemes
-    Plug 'frankier/neovim-colors-solarized-truecolor-only/'
     Plug 'NLKNguyen/papercolor-theme'
-    Plug 'yous/vim-open-color'
-    Plug 'chriskempson/base16-vim'
+    Plug 'nvim-lualine/lualine.nvim'
+    Plug 'kyazdani42/nvim-web-devicons'
 
-    " Activate only for projects
-    Plug 'jmcantrell/vim-virtualenv'
-    Plug 'davidhalter/jedi-vim'
-    Plug 'lervag/vimtex'
-    Plug 'tpope/vim-surround'
-    Plug 'editorconfig/editorconfig-vim'
+    " quickfix list
+    Plug 'folke/trouble.nvim'
 
+    " Code navigation (fzf)
+    Plug 'nvim-lua/plenary.nvim'
+    Plug 'nvim-telescope/telescope.nvim'
 
+    " Treesitter
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+    Plug 'ggandor/lightspeed.nvim'
+    Plug 'tpope/vim-repeat'
+
+    Plug 'preservim/tagbar'
     Plug 'ntpeters/vim-better-whitespace'
-    Plug 'junegunn/vim-peekaboo'
+
+    Plug 'tpope/vim-fireplace'
 
 call plug#end()
 
 let g:python3_host_prog = '/Users/marhs/.pyenv/versions/neovim3/bin/python'
-let g:ale_python_flake8_executable = 'python'
-let g:ale_python_flake8_options = '-m flake8'
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Aesthetics
@@ -87,21 +82,6 @@ let g:ale_python_flake8_options = '-m flake8'
 set background=dark
 set termguicolors
 colorscheme PaperColor
-
-if has("gui_vimr")
-" VimR specific settings like
-"   color xyz
-endif
-
-set linespace=10
-
-" Airline
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_powerline_fonts = 0
-let g:airline_left_sep = ''
-let g:airline_right_sep = ''
-"Ale
-let g:airline#extensions#ale#enabled = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Basics
@@ -119,7 +99,7 @@ set laststatus=2              " Windows always have status bars
 set encoding=utf-8
 set number
 set scrolloff=5
-set showcmd                   " Show commands in last line
+set showcmd                   " commands in last line
 set wildmenu
 set wildmode=list:longest
 set visualbell
@@ -164,14 +144,14 @@ set foldnestmax=3
 set foldlevel=99
 
 " Tabs = 4 spaces
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " PERSONAL KEYMAPS (Be careful in your workflow with these)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Leader remap to space
+" Leader remap to leader
 let mapleader = "\<Space>"
 
 " Open .vimrc in a new tab with <Leader>vr
@@ -180,119 +160,254 @@ nmap <Leader>vr :tabe ~/.config/nvim/init.vim<cr>
 " Search the selection in visual mode
 vnoremap * y/<C-R>"<CR>
 
-" Save a file:
-nnoremap <Leader>w :w<CR>
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" MULTIPURPOSE TAB KEY
-" INDENT if I'm writing a word, else do COMPLETION
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-function! InsertTabWrapper()
-    let col = col('.') - 1
-    if !col || getline('.')[col - 1] !~ '\k'
-        return "\<tab>"
-    else
-        return "\<c-p>"
-    endif
-endfunction
-inoremap <expr> <tab> InsertTabWrapper()
-inoremap <s-tab> <c-n>
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Fugitive
 " <leader> g*
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nmap <Leader>gd :Gvdiff<CR>
-nmap <Leader>gc :Gcommit<CR>
+nmap <Leader>gc :Git commit<CR>
 nmap <Leader>gw :Gwrite<CR>
 nmap <Leader>gr :Gread<CR>
-nmap <Leader>gs :Gstatus<CR>
-nmap <Leader>gb :Gblame<CR>
+nmap <Leader>gs :Git<CR>
+nmap <Leader>gb :Git blame<CR>
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Easymotion
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:EasyMotion_do_mapping = 0 " Disable default mappings
-
-" `s{char}{char}{label}`
-" Need one more keystroke, but on average, it may be more comfortable.
-nmap s <Plug>(easymotion-overwin-f2)
-
-" Turn on case insensitive feature
-let g:EasyMotion_smartcase = 1
-
-" JK motions: Line motions
-map <Leader>j <Plug>(easymotion-j)
-map <Leader>k <Plug>(easymotion-k)
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Fzf
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nmap <C-p> :FZF<CR>
-nmap <Leader>t :Tags<CR>
-nmap <Leader>b :Buffers<CR>
-
-let g:fzf_action = {
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-x': 'split',
-  \ 'ctrl-v': 'vsplit' }
-
-" Default fzf layout
-" - down / up / left / right
-let g:fzf_layout = { 'up': '~30%' }
-
-let g:fzf_buffers_jump = 1
-let g:fzf_tags_command = 'ctags'
-
-let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
-  \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'Comment'],
-  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-  \ 'hl+':     ['fg', 'Statement'],
-  \ 'info':    ['fg', 'PreProc'],
-  \ 'border':  ['fg', 'Ignore'],
-  \ 'prompt':  ['fg', 'Conditional'],
-  \ 'pointer': ['fg', 'Exception'],
-  \ 'marker':  ['fg', 'Keyword'],
-  \ 'spinner': ['fg', 'Label'],
-  \ 'header': ['fg', 'Comment'] }
-
-let $FZF_DEFAULT_COMMAND = 'ag -g ""'
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Deoplete
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:deoplete#enable_at_startup = 1
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Neomake
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Windows movement (Alt-hjkl) for normal and terminal
+" Start on insert mode when opening a terminal
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 autocmd BufWinEnter,WinEnter term://* startinsert
 
-tnoremap <C-h> <C-\><C-n><C-w>h
-tnoremap <C-j> <C-\><C-n><C-w>j
-tnoremap <C-k> <C-\><C-n><C-w>k
-tnoremap <C-l> <C-\><C-n><C-w>l
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Telescope
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nnoremap <C-p> <cmd>Telescope find_files<cr>
+nnoremap <Leader>tt :Telescope tags<CR>
+nnoremap <Leader>lg :Telescope live_grep<CR>
+nnoremap <Leader>b <cmd>Telescope buffers<cr>
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Macros
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nnoremap <Leader>tb :TagbarToggle<CR>
 
-" Ipdb
-let @p = 'Oimport ipdb; ipdb.set_trace()'
+set completeopt=menu,menuone,noselect
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" FIXME 
-"   -> Autoload this file on write
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+augroup highlight_yank
+    autocmd!
+    au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=700}
+augroup END
+
+
+lua << EOF
+local nvim_lsp = require('lspconfig')
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
+local on_attach = function(client, bufnr)
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+  -- Enable completion triggered by <c-x><c-o>
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  local opts = { noremap=true, silent=true }
+
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  --buf_set_keymap('n', 'H', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  --buf_set_keymap('n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+  --buf_set_keymap('n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  --buf_set_keymap('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  --buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  --buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
+  buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+  buf_set_keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
+  buf_set_keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+
+end
+
+-- Use a loop to conveniently call 'setup' on multiple servers and
+-- map buffer local keybindings when the language server attaches
+local servers = { 'pyright' }
+for _, lsp in ipairs(servers) do
+  nvim_lsp[lsp].setup {
+    on_attach = on_attach,
+    flags = {
+      debounce_text_changes = 150,
+    }
+  }
+end
+
+local luasnip = require 'luasnip'
+
+-- 
+-- Lualine
+-- 
+
+require('lualine').setup {
+  options = {
+    icons_enabled = true,
+    theme = 'auto',
+    component_separators = { left = '', right = ''},
+    section_separators = { left = '', right = ''},
+    disabled_filetypes = {},
+    always_divide_middle = true,
+  },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {'branch', 'diff', 'diagnostics'},
+    lualine_c = {'filename'},
+    lualine_x = {'encoding', 'fileformat', 'filetype'},
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {'filename'},
+    lualine_x = {'location'},
+    lualine_y = {},
+    lualine_z = {}
+  },
+  tabline = {},
+  extensions = {}
+}
+
+-- 
+-- CMP: Completion from LSP
+-- 
+
+local cmp = require'cmp'
+cmp.setup {
+  snippet = {
+    -- REQUIRED - you must specify a snippet engine
+    expand = function(args)
+      require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+    end,
+  },
+  -- You must set mapping if you want.
+  mapping = {
+    ['<C-z>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.close(),
+    ['<C-p>'] = cmp.mapping.select_prev_item(),
+    ['<C-n>'] = cmp.mapping.select_next_item(),
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<CR>'] = cmp.mapping.confirm({
+      behavior = cmp.ConfirmBehavior.Insert,
+      select = true,
+    }),
+    ['<Tab>'] = function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      else
+        fallback()
+      end
+    end,
+    ['<S-Tab>'] = function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end
+  },
+    sources = cmp.config.sources({
+      { name = 'nvim_lsp' },
+      { name = 'luasnip' }, -- For luasnip users.
+      { name = 'buffer' },
+    })
+}
+cmp.setup.cmdline('/', {
+  sources = {
+    { name = 'buffer' }
+  }
+})
+cmp.setup.cmdline(':', {
+  sources = cmp.config.sources({
+    { name = 'path' }
+  }, {
+    { name = 'cmdline' }
+  })
+})
+
+-- Setup lspconfig.
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+-- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
+require('lspconfig')['pyright'].setup {
+  capabilities = capabilities
+}
+
+---------------
+-- Treesitter
+---------------
+
+require'nvim-treesitter.configs'.setup {
+  -- One of "all", "maintained" (parsers with maintainers), or a list of languages
+  ensure_installed = { "python" },
+
+  -- Install languages synchronously (only applied to `ensure_installed`)
+  sync_install = false,
+
+  -- List of parsers to ignore installing
+  ignore_install = { "javascript" },
+
+  highlight = {
+    -- `false` will disable the whole extension
+    enable = true,
+
+    -- list of language that will be disabled
+    disable = { "c", "rust" },
+
+    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+    -- Using this option may slow down your editor, and you may see some duplicate highlights.
+    -- Instead of true it can also be a list of languages
+    additional_vim_regex_highlighting = false,
+  },
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+      init_selection = "gvn",
+      node_incremental = "grn",
+      scope_incremental = "grc",
+      node_decremental = "grm",
+    },
+  },
+}
+
+--
+-- EFM for Flake8
+--
+local flake8 = {
+  -- Requires flake8-efm
+  lintCommand = "flake8 --format efm --stdin-display-name ${INPUT} -",
+  lintStdin = true,
+  lintFormats = {
+    "%f:%l:%c:%t:%m",
+  }
+}
+
+--require "lspconfig".efm.setup {
+    --init_options = {documentFormatting = false, codeAction = false},
+    --filetypes = {'python'},
+    --settings = {
+        --rootMarkers = {".git/"},
+        --languages = {
+            --python = {flake8}
+        --}
+    --}
+--}
+require('trouble').setup {
+  mode = "document_diagnostics", -- "workspace_diagnostics", "document_diagnostics", "quickfix", "lsp_references", "loclist"
+}
+
+EOF
