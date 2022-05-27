@@ -70,7 +70,11 @@ call plug#begin('~/.vim/plugged')
     Plug 'preservim/tagbar'
     Plug 'ntpeters/vim-better-whitespace'
 
-    Plug 'tpope/vim-fireplace'
+    Plug 'Olical/conjure'
+    Plug 'clojure-vim/vim-jack-in'
+    Plug 'radenling/vim-dispatch-neovim'
+    Plug 'tpope/vim-dispatch'
+
 
 call plug#end()
 
@@ -128,7 +132,7 @@ set nowritebackup
 set autoread
 
 "set wrap
-set colorcolumn=72,80,120
+set colorcolumn=140
 
 set splitbelow
 set splitright
@@ -153,6 +157,7 @@ set softtabstop=2
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Leader remap to leader
 let mapleader = "\<Space>"
+let maplocalleader = "\\"
 
 " Open .vimrc in a new tab with <Leader>vr
 nmap <Leader>vr :tabe ~/.config/nvim/init.vim<cr>
@@ -346,6 +351,9 @@ require('lspconfig')['pyright'].setup {
   capabilities = capabilities
 }
 
+require'lspconfig'.clojure_lsp.setup{}
+
+
 ---------------
 -- Treesitter
 ---------------
@@ -408,6 +416,23 @@ local flake8 = {
 --}
 require('trouble').setup {
   mode = "document_diagnostics", -- "workspace_diagnostics", "document_diagnostics", "quickfix", "lsp_references", "loclist"
+}
+
+require'nvim-web-devicons'.setup {
+ -- your personnal icons can go here (to override)
+ -- you can specify color or cterm_color instead of specifying both of them
+ -- DevIcon will be appended to `name`
+ override = {
+  zsh = {
+    icon = "",
+    color = "#428850",
+    cterm_color = "65",
+    name = "Zsh"
+  }
+ };
+ -- globally enable default icons (default to false)
+ -- will get overriden by `get_icons` option
+ default = true;
 }
 
 EOF
