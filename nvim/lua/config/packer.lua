@@ -11,15 +11,15 @@ return require('packer').startup(function(use)
 	  -- or                            , branch = '0.1.x',
 	  requires = { {'nvim-lua/plenary.nvim'} }
   }
-  use { 
+  use {
       'nvim-telescope/telescope-project.nvim',
       requires = { {'nvim-telescope/telescope-file-browser.nvim'} }
   }
   use({
-	  'rose-pine/neovim',
-	  as = 'rose-pine',
+	  'NLKNguyen/papercolor-theme',
+	  as = 'papercolor',
 	  config = function()
-		  vim.cmd('colorscheme rose-pine')
+		  vim.cmd('colorscheme Papercolor')
 	  end
   })
   use {
