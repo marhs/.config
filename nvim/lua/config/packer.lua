@@ -17,13 +17,6 @@ return require('packer').startup(function(use)
         'nvim-telescope/telescope-project.nvim',
         requires = { { 'nvim-telescope/telescope-file-browser.nvim' } }
     }
-    use({
-        'NLKNguyen/papercolor-theme',
-        as = 'papercolor',
-        config = function()
-            vim.cmd('colorscheme Papercolor')
-        end
-    })
     use {
         'nvim-treesitter/nvim-treesitter',
         run = ':TSUpdate'
@@ -56,4 +49,12 @@ return require('packer').startup(function(use)
     use 'gpanders/editorconfig.nvim'
     use 'cwebster2/github-coauthors.nvim'
     use 'lukas-reineke/lsp-format.nvim'
+    use {
+        "catppuccin/nvim",
+        as = "catppuccin",
+        config = function()
+            vim.cmd('colorscheme catppuccin-mocha')
+        end
+    }
+    use { 'lewis6991/gitsigns.nvim' }
 end)

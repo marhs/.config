@@ -26,10 +26,16 @@ vim.opt.updatetime = 50
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 
-vim.opt.colorcolumn = "80"
+-- vim.opt.colorcolumn = "80"
 
 vim.api.nvim_create_autocmd("TextYankPost", {
-  callback = function()
-    vim.highlight.on_yank({ higroup = "IncSearch", timeout = "1000" })
-  end,
+    callback = function()
+        vim.highlight.on_yank({ higroup = "IncSearch", timeout = "1000" })
+    end,
 })
+
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldlevelstart = 50
+
+vim.cmd('colorscheme catppuccin-mocha')
