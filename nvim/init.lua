@@ -6,4 +6,5 @@ else
     require("config.set")
     require("config.colors")
     require("config.neovide")
+    require("config.packer")
 end

@@ -1,7 +1,10 @@
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 vim.opt.guicursor = ""
 
 vim.opt.nu = true
-vim.opt.relativenumber = false
+vim.opt.relativenumber = true
 
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
@@ -30,7 +33,7 @@ vim.opt.splitright = true
 
 vim.api.nvim_create_autocmd("TextYankPost", {
     callback = function()
-        vim.highlight.on_yank({ higroup = "IncSearch", timeout = "1000" })
+        vim.highlight.on_yank({ higroup = "IncSearch", timeout = "400" })
     end,
 })
 

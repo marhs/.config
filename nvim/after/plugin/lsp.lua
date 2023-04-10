@@ -1,4 +1,7 @@
 local lsp = require('lsp-zero')
+local cmp = require('cmp')
+local cmp_action = require('lsp-zero').cmp_action()
+local null_ls = require("null-ls")
 
 lsp.preset('recommended')
 
@@ -31,6 +34,23 @@ end)
 
 vim.diagnostic.config({
     virtual_text = true,
+})
+
+lsp.setup_nvim_cmp({
+  sources = {
+    {name = 'path'},
+    {name = 'nvim_lsp'},
+    {name = 'conjure'},
+    {name = 'buffer', keyword_length = 3},
+    {name = 'luasnip', keyword_length = 2},
+  }
+})
+
+null_ls.setup({
+    sources = {
+        null_ls.builtins.diagnostics.flake8
+    --    null_ls.builtins.diagnostics.clj_kondo
+    },
 })
 
 lsp.nvim_workspace()
