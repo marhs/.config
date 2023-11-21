@@ -2,6 +2,7 @@ local lsp = require('lsp-zero')
 local cmp = require('cmp')
 local cmp_action = require('lsp-zero').cmp_action()
 local null_ls = require("null-ls")
+local lspconfig = require('lspconfig')
 
 lsp.preset('recommended')
 
@@ -10,14 +11,25 @@ lsp.ensure_installed({
     --'sumneko_lua',
 })
 
+
+lspconfig.pyright.setup({
+    settings = {
+        python = {
+            venvPath = ".",
+            venv = ".venv",
+        },
+    }
+})
+
 lsp.on_attach(function(client, bufnr)
     local opts = { buffer = bufnr, remap = false }
-    --require("lsp-format").on_attach(client)
+    require("lsp-format").on_attach(client)
 
     --if client.name == "eslint" then
     -- vim.cmd.LspStop('eslint')
     -- return
     --end
+    --
 
     vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
     vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
@@ -37,19 +49,26 @@ vim.diagnostic.config({
 })
 
 lsp.setup_nvim_cmp({
-  sources = {
-    {name = 'path'},
-    {name = 'nvim_lsp'},
-    {name = 'conjure'},
-    {name = 'buffer', keyword_length = 3},
-    {name = 'luasnip', keyword_length = 2},
-  }
+    sources = {
+        { name = 'path' },
+        { name = 'nvim_lsp' },
+        { name = 'conjure' },
+        { name = 'buffer',  keyword_length = 3 },
+        { name = 'luasnip', keyword_length = 2 },
+    }
 })
 
 null_ls.setup({
     sources = {
-        null_ls.builtins.diagnostics.flake8
-    --    null_ls.builtins.diagnostics.clj_kondo
+        null_ls.builtins.diagnostics.flake8.with({
+            extra_args = { "--ignore", "E501" }
+        }),
+        -- :lua vim.lsp.buf.format()
+        null_ls.builtins.formatting.black.with({
+            extra_args = { "--line-length=120" }
+        }),
+        --E501
+        --    null_ls.builtins.diagnostics.clj_kondo
     },
 })
 

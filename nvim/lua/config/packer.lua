@@ -13,7 +13,7 @@ return require('packer').startup(function(use)
         -- or                            , branch = '0.1.x',
         requires = { { 'nvim-lua/plenary.nvim' } }
     }
-    use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+    use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
     use {
         'nvim-telescope/telescope-project.nvim',
         requires = { { 'nvim-telescope/telescope-file-browser.nvim' } }
@@ -27,7 +27,7 @@ return require('packer').startup(function(use)
     }
 
     -- NVIM Tree
-    --use 'nvim-tree/nvim-tree.lua'
+    use 'nvim-tree/nvim-tree.lua'
 
     -- Git
     use {
@@ -64,7 +64,7 @@ return require('packer').startup(function(use)
     use { 'hrsh7th/cmp-nvim-lsp' }
     use { 'hrsh7th/cmp-nvim-lua' }
     use { 'jose-elias-alvarez/null-ls.nvim' }
-    use { 'lukas-reineke/lsp-format.nvim' }
+    --use { 'lukas-reineke/lsp-format.nvim' }
 
     use {
         "folke/trouble.nvim",
@@ -83,7 +83,7 @@ return require('packer').startup(function(use)
     use { 'radenling/vim-dispatch-neovim' }
 
     -- Others
-    use {'gpanders/editorconfig.nvim' }  -- To deprecate in next nvim versions
+    use { 'gpanders/editorconfig.nvim' } -- To deprecate in next nvim versions
     use 'echasnovski/mini.nvim'
     use 'ggandor/leap.nvim'
 

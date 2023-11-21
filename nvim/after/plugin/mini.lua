@@ -12,7 +12,7 @@ require('mini.surround').setup({
     update_n_lines = "",
   }
 })
-require('mini.indentscope').setup()
+--require('mini.indentscope').setup()
 
 require('mini.trailspace').setup()
 vim.keymap.set('n',

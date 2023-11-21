@@ -1,7 +1,15 @@
 local telescope = require 'telescope'
 local builtin = require('telescope.builtin')
+local actions = require('telescope.actions')
 
 telescope.setup {
+    defaults = {
+        mappings = {
+            i = {
+                ["<C-Q>"] = actions.smart_send_to_qflist
+            },
+        },
+    },
     extensions = {
         project = {
             base_dirs = {
@@ -10,16 +18,16 @@ telescope.setup {
             hidden_files = false, -- default: false
             theme = "dropdown",
             order_by = "recent",
-            sync_with_nvim_tree = true, -- default false
+            sync_with_nvim_tree = false, -- default false
         },
         githubcoauthors = {
             theme = "dropdown",
         },
         fzf = {
-            fuzzy = true,             -- false will only do exact matching
+            fuzzy = true,                   -- false will only do exact matching
             override_generic_sorter = true, -- override the generic sorter
-            override_file_sorter = true, -- override the file sorter
-            case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+            override_file_sorter = true,    -- override the file sorter
+            case_mode = "smart_case",       -- or "ignore_case" or "respect_case"
             -- the default case_mode is "smart_case"
         }
     }
