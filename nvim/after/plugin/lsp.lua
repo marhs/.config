@@ -6,9 +6,18 @@ local lspconfig = require('lspconfig')
 
 lsp.preset('recommended')
 
-lsp.ensure_installed({
-    'pyright',
-    --'sumneko_lua',
+require('mason').setup({})
+require('mason-lspconfig').setup({
+  -- Replace the language servers listed here 
+  -- with the ones you want to install
+  ensure_installed = {'pyright'},
+  handlers = {
+    lsp.default_setup,
+    lua_ls = function()
+      local lua_opts = lsp_zero.nvim_lua_ls()
+      require('lspconfig').lua_ls.setup(lua_opts)
+    end,
+  },
 })
 
 
@@ -48,7 +57,7 @@ vim.diagnostic.config({
     virtual_text = true,
 })
 
-lsp.setup_nvim_cmp({
+cmp.setup({
     sources = {
         { name = 'path' },
         { name = 'nvim_lsp' },
@@ -72,5 +81,4 @@ null_ls.setup({
     },
 })
 
-lsp.nvim_workspace()
 lsp.setup()
