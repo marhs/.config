@@ -34,7 +34,7 @@ telescope.setup {
 }
 
 telescope.load_extension('project')
-telescope.load_extension('fzf')
+--telescope.load_extension('fzf')
 
 -- Mappings
 vim.keymap.set('n', '<leader><leader>', builtin.builtin, { desc = 'Telescope' })
