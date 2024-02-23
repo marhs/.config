@@ -44,3 +44,5 @@ vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldlevelstart = 50
 
 -- vim.cmd('colorscheme catppuccin-mocha')
+--
+vim.g["conjure#mapping#doc_word"] = false

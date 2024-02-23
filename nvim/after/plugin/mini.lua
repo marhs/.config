@@ -12,9 +12,13 @@ require('mini.surround').setup({
     update_n_lines = "",
   }
 })
---require('mini.indentscope').setup()
+require('mini.indentscope').setup()
 
-require('mini.trailspace').setup()
+require('mini.trailspace').setup({
+  -- Highlight only in normal buffers (ones with empty 'buftype'). This is
+  -- useful to not show trailing whitespace where it usually doesn't matter.
+  only_in_normal_buffers = false,
+})
 vim.keymap.set('n',
     "<leader>ws",
     ":lua MiniTrailspace.trim()<CR>",
