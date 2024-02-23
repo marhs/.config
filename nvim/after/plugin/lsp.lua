@@ -23,16 +23,17 @@ require('mason-lspconfig').setup({
 
 lspconfig.pyright.setup({
     settings = {
-        python = {
-            venvPath = ".",
-            venv = ".venv",
-        },
+        -- python = {
+        --     exclude = { ".venv" },
+        --     venvPath = ".venv",
+        --     venv = ".",
+        -- },
     }
 })
 
 lsp.on_attach(function(client, bufnr)
     local opts = { buffer = bufnr, remap = false }
-    require("lsp-format").on_attach(client)
+    --require("lsp-format").on_attach(client)
 
     --if client.name == "eslint" then
     -- vim.cmd.LspStop('eslint')

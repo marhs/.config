@@ -12,11 +12,11 @@ if vim.g.neovide then
     vim.keymap.set('i', '<D-v>', '<ESC>l"+Pli') -- Paste insert mode
 
     -- Allow clipboard copy paste in neovim
-    vim.g.neovide_input_use_logo = 1
-    vim.api.nvim_set_keymap('', '<D-v>', '+p<CR>', { noremap = true, silent = true })
-    vim.api.nvim_set_keymap('!', '<D-v>', '<C-R>+', { noremap = true, silent = true })
-    vim.api.nvim_set_keymap('t', '<D-v>', '<C-R>+', { noremap = true, silent = true })
-    vim.api.nvim_set_keymap('v', '<D-v>', '<C-R>+', { noremap = true, silent = true })
+    -- vim.g.neovide_input_use_logo = 1
+    -- vim.api.nvim_set_keymap('', '<D-v>', '+p<CR>', { noremap = true, silent = true })
+    -- vim.api.nvim_set_keymap('!', '<D-v>', '<C-R>+', { noremap = true, silent = true })
+    -- vim.api.nvim_set_keymap('t', '<D-v>', '<C-R>+', { noremap = true, silent = true })
+    -- vim.api.nvim_set_keymap('v', '<D-v>', '<C-R>+', { noremap = true, silent = true })
 
     -- Change font size with <C-=> and <C-->
     vim.g.neovide_scale_factor = 1.0
@@ -24,9 +24,10 @@ if vim.g.neovide then
         vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * delta
     end
     vim.keymap.set("n", "<C-=>", function()
-        change_scale_factor(1.25)
+        change_scale_factor(1.05)
     end)
     vim.keymap.set("n", "<C-->", function()
-        change_scale_factor(1 / 1.25)
+        change_scale_factor(1 / 1.05)
     end)
 end
+

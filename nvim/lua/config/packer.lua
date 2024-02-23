@@ -26,8 +26,6 @@ return require('packer').startup(function(use)
         run = ':TSUpdate'
     }
 
-    -- NVIM Tree
-    use 'nvim-tree/nvim-tree.lua'
 
     -- Git
     use {
