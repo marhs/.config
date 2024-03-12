@@ -1,13 +1,17 @@
 require('lualine').setup({
+    options = {
+      component_separators = { left = "", right = "" },
+      section_separators = { left = "", right = "" },
+    },
     sections = {
         lualine_a = { 'mode' },
-        lualine_b = { 'diagnostics' },
+        lualine_b = { 'branch' },
         lualine_c = { {
             'filename',
             path = 1,
             shorting_target = 80,
         } },
-        lualine_x = { 'diff' },
+        lualine_x = { 'diagnostics' },
         lualine_y = { {
             function()
                 local lsps = vim.lsp.get_active_clients({ bufnr = vim.fn.bufnr() })
