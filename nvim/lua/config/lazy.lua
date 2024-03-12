@@ -13,6 +13,7 @@ vim.opt.rtp:prepend(lazypath)
 
 local plugins = {
     "folke/which-key.nvim",
+    "tpope/vim-sleuth",
     { "folke/neoconf.nvim", cmd = "Neoconf" },
 
     -- Telescope
@@ -27,6 +28,7 @@ local plugins = {
     { 'nvim-treesitter/nvim-treesitter',
         build = ':TSUpdate'
     },
+    { 'nvim-treesitter/nvim-treesitter-context' },
 
     -- Git
     { 'tpope/vim-fugitive' },
@@ -61,8 +63,6 @@ local plugins = {
     { 'saadparwaiz1/cmp_luasnip' },
     { 'hrsh7th/cmp-nvim-lsp' },
     { 'hrsh7th/cmp-nvim-lua' },
-    { 'jose-elias-alvarez/null-ls.nvim' },
-   -- { 'lukas-reineke/lsp-format.nvim' }
 
     { 'Olical/conjure' },
     { 'PaterJason/cmp-conjure' },

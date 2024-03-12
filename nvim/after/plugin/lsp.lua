@@ -1,16 +1,16 @@
 local lsp = require('lsp-zero')
 local cmp = require('cmp')
 local cmp_action = require('lsp-zero').cmp_action()
-local null_ls = require("null-ls")
+--local null_ls = require("null-ls")
 local lspconfig = require('lspconfig')
 
 lsp.preset('recommended')
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
-  -- Replace the language servers listed here 
+  -- Replace the language servers listed here
   -- with the ones you want to install
-  ensure_installed = {'pyright'},
+  ensure_installed = {'pyright', 'ruff_lsp'},
   handlers = {
     lsp.default_setup,
     lua_ls = function()
@@ -31,27 +31,32 @@ lspconfig.pyright.setup({
     }
 })
 
+-- Configure `ruff-lsp`.
+-- See: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#ruff_lsp
+-- For the default config, along with instructions on how to customize the settings
+lspconfig.ruff_lsp.setup {
+  init_options = {
+    settings = {
+      -- Any extra CLI arguments for `ruff` go here.
+      args = {},
+    }
+  }
+}
+
+
+-- Keymaps
 lsp.on_attach(function(client, bufnr)
-    local opts = { buffer = bufnr, remap = false }
-    --require("lsp-format").on_attach(client)
-
-    --if client.name == "eslint" then
-    -- vim.cmd.LspStop('eslint')
-    -- return
-    --end
-    --
-
-    vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-    vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-    vim.keymap.set("n", "<leader>vws", vim.lsp.buf.workspace_symbol, opts)
-    vim.keymap.set("n", "<leader>vd", vim.diagnostic.open_float, opts)
-    vim.keymap.set("n", "[d", vim.diagnostic.goto_next, opts)
-    vim.keymap.set("n", "]d", vim.diagnostic.goto_prev, opts)
-    vim.keymap.set("n", "<leader>vca", vim.lsp.buf.code_action, opts)
-    vim.keymap.set("n", "<leader>vrr", vim.lsp.buf.references, opts)
-    vim.keymap.set("n", "<leader>vrn", vim.lsp.buf.rename, opts)
-    vim.keymap.set("n", "<leader>fm", vim.lsp.buf.format, opts)
-    vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, opts)
+   vim.keymap.set("n", "gd",          vim.lsp.buf.definition,       { desc = 'Go to symbol definition',      buffer = bufnr, remap = false })
+   vim.keymap.set("n", "K",           vim.lsp.buf.hover,            { desc = 'Hover - Documentation',        buffer = bufnr, remap = false })
+   vim.keymap.set("n", "<leader>lws", vim.lsp.buf.workspace_symbol, { desc = 'LSP - [WS] Workspace Symbol',  buffer = bufnr, remap = false })
+   vim.keymap.set("n", "<leader>ld",  vim.diagnostic.open_float,    { desc = 'LSP - [D] Diagnostics float',  buffer = bufnr, remap = false })
+   vim.keymap.set("n", "[d",          vim.diagnostic.goto_next,     { desc = 'LSP - Next diagnostic',        buffer = bufnr, remap = false })
+   vim.keymap.set("n", "]d",          vim.diagnostic.goto_prev,     { desc = 'LSP - Prev diagnostic',        buffer = bufnr, remap = false })
+   vim.keymap.set("n", "<leader>lca", vim.lsp.buf.code_action,      { desc = 'LSP - [CA] Code actions',      buffer = bufnr, remap = false })
+   vim.keymap.set("n", "<leader>lrr", vim.lsp.buf.references,       { desc = 'LSP - [RR] References',        buffer = bufnr, remap = false })
+   vim.keymap.set("n", "<leader>lrn", vim.lsp.buf.rename,           { desc = 'LSP - [RN] Rename',            buffer = bufnr, remap = false })
+   vim.keymap.set("n", "<leader>lfm", vim.lsp.buf.format,           { desc = 'LSP - [FM] Format buffer',     buffer = bufnr, remap = false })
+   vim.keymap.set("i", "<C-h>",       vim.lsp.buf.signature_help,   { desc = 'LSP - [<C-h>] Signature help', buffer = bufnr, remap = false })
 end)
 
 vim.diagnostic.config({
@@ -67,19 +72,3 @@ cmp.setup({
         { name = 'luasnip', keyword_length = 2 },
     }
 })
-
-null_ls.setup({
-    sources = {
-        null_ls.builtins.diagnostics.flake8.with({
-            extra_args = { "--ignore", "E501" }
-        }),
-        -- :lua vim.lsp.buf.format()
-        null_ls.builtins.formatting.black.with({
-            extra_args = { "--line-length=120" }
-        }),
-        --E501
-        --    null_ls.builtins.diagnostics.clj_kondo
-    },
-})
-
-lsp.setup()
