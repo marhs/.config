@@ -12,7 +12,9 @@ require('mini.surround').setup({
     update_n_lines = "",
   }
 })
-require('mini.indentscope').setup()
+require('mini.indentscope').setup(
+ -- { symbol = '|' }
+)
 
 require('mini.trailspace').setup({
   -- Highlight only in normal buffers (ones with empty 'buftype'). This is
@@ -29,3 +31,5 @@ local starter = require('mini.starter')
 starter.setup({
     evaluate_single = true,
 })
+
+require('mini.align').setup()
